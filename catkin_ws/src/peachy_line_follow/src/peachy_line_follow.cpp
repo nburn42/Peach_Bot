@@ -185,19 +185,19 @@ void imageCb(const sensor_msgs::ImageConstPtr& msg) {
 
 	velMsg.angular.z = 0;
 	if (total_area > 150) {
-		if (speed < 1.2) {
-			speed += 0.2;
+		if (speed < 1.8) {
+			speed += 0.3;
 		} else {
-			speed = 1;
+			speed = 1.8;
 		}
 		
 		// 640 across
 		// max range 0 - 640
 		// result -0.5 - 0.5
-		velMsg.angular.z =  ((mean_x/640) - 0.5) * 0.75;
+		velMsg.angular.z =  (0.5 - (mean_x/640)) * 2;
 	} else {
 		if (speed > 0) {
-                        speed -= 0.2;
+                        speed -= 0.4;
                 } else {
 			speed = 0;
 		}
