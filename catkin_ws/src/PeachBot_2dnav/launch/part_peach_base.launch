@@ -6,6 +6,15 @@
 
   <node pkg="tf" type="static_transform_publisher" name="Zed_to_camera_broadcaster" args=".4 0 .25 0 0 0 base_link camera_base_link 100" />
 
+  <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device" value="/dev/v4l/by-id/usb-046d_0992_C25599E0-video-index0" />
+    <param name="image_width" value="640" />
+    <param name="image_height" value="480" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="line_cam" />
+    <param name="io_method" value="mmap"/>
+  </node>
+
 
   <node pkg="rosserial_python" type="serial_node.py" name="serial_node_0">
     <param name="port" value="/dev/ttyACM0"/>

@@ -1,19 +1,17 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(eddiebot_line_follower)
-
+project(peachy_line_follow)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-roscpp
-image_transport
-cv_bridge
-geometry_msgs
-dynamic_reconfigure
-nodelet
+  cv_bridge
+  dynamic_reconfigure
+  geometry_msgs
+  image_transport
+  roscpp
+  rospy
 )
-
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -72,10 +70,8 @@ nodelet
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+#   geometry_msgs
 # )
-
-generate_dynamic_reconfigure_options( cfg/params.cfg)  
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -92,10 +88,9 @@ generate_dynamic_reconfigure_options( cfg/params.cfg)
 ##     and list every .cfg file to be processed
 
 ## Generate dynamic reconfigure parameters in the 'cfg' folder
-# generate_dynamic_reconfigure_options(
-#   cfg/DynReconf1.cfg
-#   cfg/DynReconf2.cfg
-# )
+ generate_dynamic_reconfigure_options(
+   cfg/Params.cfg
+ )
 
 ###################################
 ## catkin specific configuration ##
@@ -107,15 +102,10 @@ generate_dynamic_reconfigure_options( cfg/params.cfg)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#INCLUDE_DIRS include
-LIBRARIES eddiebot_line_follower_nodelet
-  CATKIN_DEPENDS
-roscpp
-image_transport
-cv_bridge
-geometry_msgs
-dynamic_reconfigure
-nodelet
+#  INCLUDE_DIRS include
+#  LIBRARIES peachy_line_follow
+#  CATKIN_DEPENDS cv_bridge dynamic_reconfigure geometry_msgs image_transport roscpp rospy
+#  DEPENDS system_lib
 )
 
 ###########
@@ -124,26 +114,30 @@ nodelet
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories( ${catkin_INCLUDE_DIRS} ${dynamic_reconfigure_PACKAGE_PATH}/cmake/cfgbuild.cmake )
+# include_directories(include)
+include_directories(
+  ${catkin_INCLUDE_DIRS}
+)
 
 ## Declare a C++ library
-# add_library(eddiebot_line_follower src/${PROJECT_NAME}_nodelet src/eddiebot_line_follower.cpp)
+# add_library(peachy_line_follow
+#   src/${PROJECT_NAME}/peachy_line_follow.cpp
+# )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(eddiebot_line_follower ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+# add_dependencies(peachy_line_follow ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(eddiebot_line_follower_node src/eddiebot_line_follower_node.cpp)
+ add_executable(peachy_line_follow_node src/peachy_line_follow.cpp)
 
-# Add cmake target dependencies of the executable
-# same as for the library above
- add_dependencies(eddiebot_line_follower_node ${PROJECT_NAME}_gencfg ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
+## Add cmake target dependencies of the executable
+## same as for the library above
+ add_dependencies(peachy_line_follow_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS} ${PROJECT_NAME}_gencfg)
 
 # Specify libraries to link a library or executable target against
- target_link_libraries(eddiebot_line_follower_node
+ target_link_libraries(peachy_line_follow_node
    ${catkin_LIBRARIES}
  )
 
@@ -162,7 +156,7 @@ add_executable(eddiebot_line_follower_node src/eddiebot_line_follower_node.cpp)
 # )
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS eddiebot_line_follower eddiebot_line_follower_node
+# install(TARGETS peachy_line_follow peachy_line_follow_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -187,12 +181,10 @@ add_executable(eddiebot_line_follower_node src/eddiebot_line_follower_node.cpp)
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_eddiebot_line_follower.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_peachy_line_follow.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-
-

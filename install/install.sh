@@ -10,3 +10,8 @@ rosdep update
 sudo apt-get install python-rosinstall
 sudo apt-get install ros-jade-ecl-threads
 sudo apt-get install ros-jade-opencv3
+cd ~/Peach_Bot/install
+./ZED_SDK_Linux_JTX1_v1.0.0c.run
+
+cd ~/Peach_Bot/catkin_ws/src
+git clone https://github.com/stereolabs/zed-ros-wrapper

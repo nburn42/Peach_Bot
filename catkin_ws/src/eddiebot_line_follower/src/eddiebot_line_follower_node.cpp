@@ -57,17 +57,15 @@ float derive_angular, derive_linear, dt = 0.5;
 float horizontalcount;
 
 dynamic_reconfigure::Server<eddiebot_line_follower::paramsConfig> *             dynamic_reconfigure_server;
-  dynamic_reconfigure::Server<eddiebot_line_follower::paramsConfig>::CallbackType dynamic_reconfigure_callback;
+dynamic_reconfigure::Server<eddiebot_line_follower::paramsConfig>::CallbackType dynamic_reconfigure_callback;
 
 
 class Follow {
-	ros::NodeHandle nh_, ph_;
-	ros::NodeHandle n;
+	ros::NodeHandle nh_;
 	ros::Publisher pub;
-	ros::Publisher tog;
 	image_transport::ImageTransport it_;
-	image_transport::Subscriber image_sub_; //image subscriber
-	image_transport::Publisher image_pub_; //image publisher(we subscribe to ardrone image_raw)
+	image_transport::Subscriber image_sub_;
+	image_transport::Publisher image_pub_; 
 	std_msgs::String msg;
 
 	double linear_, angular_;
@@ -95,7 +93,7 @@ public:
 		l2_(50),
 		l3_(50),
 		it_(nh_) {
-			pub = n.advertise <geometry_msgs::Twist> ("cmd_vel", 1);
+			pub = nh_.advertise <geometry_msgs::Twist> ("cmd_vel", 1);
 			image_sub_ = it_.subscribe("/camera/left/image_rect_color", 1,
 					&Follow::imageCb, this);
 			image_pub_ = it_.advertise("/arcv/Image", 1);
@@ -192,19 +190,27 @@ public:
 		//complement.copyTo(cv_ptr->image);
 
 
-		Mat out1;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 3); //make sure to feed the image(img) data to the parameters necessary for canny edge output
-		Mat gray_out;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
-		Mat canny_out;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
-		Mat gray_out1;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 3);
-		Mat canny_out1;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
-		Mat canny_out2;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
+		Mat out1;
+		Mat gray_out;
+		Mat canny_out;
+		Mat gray_out1;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 3);
+		Mat canny_out1;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
+		Mat canny_out2;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
 
-		Mat gray_out2;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
+		Mat gray_out2;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
 		vector<Mat> hsv_channels;
-		Mat hsv_out;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
-		Mat red_out;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
-		Mat red_out1;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
-		Mat red_out2;// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
+		Mat hsv_out;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
+		Mat red_out;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
+		Mat red_out1;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
+		Mat red_out2;
+// = cvCreateImage(cvGetSize(cv_ptr->image), IPL_DEPTH_8U, 1);
 
 		GaussianBlur(cv_ptr->image, out1, Size(3, 3), 0,0);
 
@@ -326,8 +332,9 @@ public:
 };
 
 int main(int argc, char** argv) {
-	ros::init(argc, argv, "eddiebot_line_follower");
+	ros::init(argc, argv, "eddiebot_line_follower_node");
 	ROS_INFO("Starting to spin...");
+	
 	Follow ic;
 	ros::spin();
 	return 0;
