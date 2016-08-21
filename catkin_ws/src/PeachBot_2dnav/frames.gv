@@ -1,0 +1,10 @@
+digraph G {
+"odom" -> "zed_initial_frame"[label="Broadcaster: /base_debug_broadcaster\nAverage rate: 10.191 Hz\nMost recent transform: 1471770308.760 ( -0.067 sec old)\nBuffer length: 4.906 sec\n"];
+"map" -> "odom"[label="Broadcaster: /slam_gmapping\nAverage rate: 20.204 Hz\nMost recent transform: 1471770308.713 ( -0.020 sec old)\nBuffer length: 4.900 sec\n"];
+"zed_initial_frame" -> "zed_tracked_frame"[label="Broadcaster: /camera/zed_wrapper_node\nAverage rate: 17.469 Hz\nMost recent transform: 1471770308.637 ( 0.056 sec old)\nBuffer length: 4.866 sec\n"];
+"zed_tracked_frame" -> "base_link"[label="Broadcaster: /base_to_zed_broadcaster\nAverage rate: 10.197 Hz\nMost recent transform: 1471770308.692 ( 0.001 sec old)\nBuffer length: 4.805 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1471770308.693"[ shape=plaintext ] ;
+ }->"map";
+}
