@@ -3,7 +3,9 @@
   <master auto="start"/>
 
   <!-- Run the map server -->
-  <node name="map_server" pkg="map_server" type="map_server" />
+  <!--
+	<node name="map_server" pkg="map_server" type="map_server" />
+  -->
 
   <!--- Run AMCL -->
   <include file="$(find amcl)/examples/amcl_diff.launch" />
@@ -16,7 +18,7 @@
     <rosparam file="$(find peach_bot_2dnav)/base_local_planner_params.yaml" command="load" />
   </node>
 
-  <node pkg="zed_ros_wrapper" type="sensor_node_type" name="zed_wrapper_node" output="screen">
+    <node name="zed_wrapper_node" pkg="zed_wrapper" type="zed_wrapper_node" output="screen">
       <param name="resolution"            value="2" />
       <param name="quality"               value="1" />
       <param name="sensing_mode"          value="1" />
