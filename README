@@ -1,0 +1,9 @@
+Useful items
+
+TX1 password is "ubuntu"
+
+
+Info
+
+Robot will stop if it hasn't recieved a command to move in the last third of a second
+

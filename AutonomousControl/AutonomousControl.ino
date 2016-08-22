@@ -1,4 +1,19 @@
+<<<<<<< HEAD
 #include <Servo.h>
+=======
+#if (ARDUINO >= 100)
+ #include <Arduino.h>
+#else
+ #include <WProgram.h>
+#endif
+
+#include <Servo.h>
+#include <ros.h>
+#include <std_msgs/String.h>
+#include <geometry_msgs/Twist.h>
+
+ros::NodeHandle  nh;
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
 
 int first_controller_pin = 40;
 int last_controller_pin = 47;
@@ -10,7 +25,11 @@ long controller_speeds_min[8] = {1486 ,1486 ,1051 ,1045 ,1069 ,1141 ,1073 ,1072}
 long controller_speeds_max[8] = {1495 ,1495 ,1885 ,1885 ,1903 ,1966 ,1904 ,1903};
 
 
+<<<<<<< HEAD
 String controller_names[] = {"?", "?", "Switch?", "Top Left Switch", "left left/right", "left up/down", "right up/down", "right left/right"};
+=======
+String controller_names[] = {"?", "?", "RightUD?", "Top Left Switch", "left left/right", "RightUD", "LeftUD", "RightLR"};
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
 
 Servo left1;
 Servo left2;
@@ -20,6 +39,56 @@ Servo right1;
 Servo right2;
 Servo right3;
 
+<<<<<<< HEAD
+=======
+const int max_speed = 128/3;
+
+long lastMotorCommand = 0;
+char debug_string[200];
+
+std_msgs::String str_msg;
+ros::Publisher debug_pub("arduino_debug", &str_msg);
+
+geometry_msgs::Twist controller_cmd_vel_msg;
+ros::Publisher pub("controller_cmd_vel", &controller_cmd_vel_msg);
+
+void write_debug(String debugger) {
+  debugger.toCharArray(debug_string, 200);
+  str_msg.data = debug_string;
+  debug_pub.publish(&str_msg);
+}
+
+void cmd_vel_cb( const geometry_msgs::Twist& cmd_msg){
+  /* Reset the auto stop timer */
+  lastMotorCommand = millis();
+  
+  String debugger = "Got message: ";
+  debugger += String(cmd_msg.linear.x) + " ";
+  debugger += String(cmd_msg.angular.z) + "\n";
+  
+  float rawy = cmd_msg.linear.x; // m/s
+  float rawx = cmd_msg.angular.z; // rad/s
+
+  int x, y;
+  
+  x = (int)double_map(rawx, -1, 1, -1 * max_speed, max_speed);
+  y = (int)double_map(rawy, -1, 1, -1 * max_speed, max_speed);
+
+  x = max(-128, min(128, x));
+  y = max(-128, min(128, y));
+
+  debugger += String(x) + " ";
+  debugger += String(y) + "\n";
+
+  write_debug(debugger);
+  
+  updateArcadeDrive(x,y);
+  digitalWrite(13, HIGH-digitalRead(13));  //toggle led  
+}
+
+ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", cmd_vel_cb);
+
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
 void setup() {
 
   for(int i = first_controller_pin; i <= last_controller_pin; i++) {
@@ -32,22 +101,45 @@ void setup() {
     //controller_speeds_max[i] = 0;
   }
 
+<<<<<<< HEAD
   Serial.begin(9600);
   while (!Serial);             // Leonardo: wait for serial monitor
   Serial.println("\nPeachBot");
 
+=======
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   left1.attach(6, 1000, 2000);
   left2.attach(7, 1000, 2000);
   left3.attach(8, 1000, 2000);
   right1.attach(3, 1000, 2000);
   right2.attach(4, 1000, 2000);
   right3.attach(5, 1000, 2000);
+<<<<<<< HEAD
 }
 
 
 void update_controller_speeds() {
   for(int i = 0; i <= 7; i++) {
     controller_speeds[i] = pulseIn(i + first_controller_pin, HIGH, 20000);
+=======
+
+  controller_cmd_vel_msg.linear.x = 0.0;
+  controller_cmd_vel_msg.linear.y = 0.0;
+  controller_cmd_vel_msg.linear.z = 0.0;
+  controller_cmd_vel_msg.angular.x = 0.0;
+  controller_cmd_vel_msg.angular.y = 0.0;
+  controller_cmd_vel_msg.angular.z = 0.0;
+  
+  nh.initNode();
+  nh.subscribe(sub);
+  nh.advertise(pub);
+  nh.advertise(debug_pub);
+}
+
+void update_controller_speeds() {
+  for(int i = 0; i <= 7; i++) {
+    controller_speeds[i] = pulseIn(i + first_controller_pin, HIGH, 40000);
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   }
 }
 
@@ -63,6 +155,7 @@ int get_controller_speed(int i) {
     return max(0, min(255, value));
 }
 
+<<<<<<< HEAD
 void print_controller_speeds() {
  for(int i = 0; i <= 7; i++) {
     Serial.print(i + first_controller_pin);
@@ -102,16 +195,64 @@ void updateArcadeDrive(int x, int y) {
   int r = yy + xx;
   
   l = map(l, -128, 128, 0, 180);
+=======
+String get_controller_speeds() {
+ String s = "";
+ for(int i = 0; i <= 7; i++) {
+    s += String(i + first_controller_pin) + " ";
+    s += controller_names[i] + " ";
+    s += String(get_controller_speed(i)) + "\n";
+  }
+  s += "\n";
+  return s;
+}
+
+void print_controller_speeds_min_maxprint_controller_speeds_min_max() {
+// Serial.print("min {");
+// for(int i = 0; i <= 7; i++) {
+//    Serial.print(controller_speeds_min[i]);
+//    Serial.print(" ,");
+//  }
+//  Serial.print("}");
+//  Serial.println();
+//  Serial.print("max {");
+//  for(int i = 0; i <= 7; i++) {
+//    Serial.print(controller_speeds_max[i]);
+//    Serial.print(" ,");
+//  }
+//  Serial.print("}");
+//  Serial.println();
+}
+
+// x and y must be between -128 and 128
+void updateArcadeDrive(int x, int y) {
+  
+  int l = y + x;
+  int r = y - x;
+  
+  l = map(l, 128, -128, 0, 180);
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   r = map(r, -128, 128, 0, 180);
   
   l = max(0, min(180, l));
   r = max(0, min(180, r));
+<<<<<<< HEAD
   
+=======
+
+//  String debugger = "Driving: ";
+//  debugger += String(l) + " ";
+//  debugger += String(r) + "\n";
+//  
+//  write_debug(debugger);
+
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   set_left(l);
   set_right(r);
 }
 
 void set_left(int l) {
+<<<<<<< HEAD
   int ll = 90;
   if(l > 90 + gap) {
     ll = map(l, 90 + 1 + gap, 180, 90, 90 - 90);
@@ -141,11 +282,33 @@ void set_right(int r) {
 
 void loop() {
 
+=======
+  left1.write(l);
+  left2.write(l);
+  left3.write(l);
+}
+
+void set_right(int r) {
+  right1.write(r);
+  right2.write(r);
+  right3.write(r);
+}
+
+double double_map(double x, double in_min, double in_max, double out_min, double out_max)
+{
+ return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
+void loop() {
+  nh.spinOnce();
+  
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   update_controller_speeds();
   //update_controller_speeds_min_max();
   //print_controller_speeds();
   //print_controller_speeds_min_max();
   
+<<<<<<< HEAD
   if(get_controller_speed(3) > 128) {  
     int x = get_controller_speed(7);
     int y = get_controller_speed(6);
@@ -159,5 +322,50 @@ void loop() {
     set_left(90);
     set_right(90); 
   }
+=======
+  if(true) {  
+    double x = get_controller_speed(7) - 128;
+    double y = get_controller_speed(5) - 128;
+
+    int xx = 0;
+    if(x > gap) {
+      xx = map(x, x + gap,  128, 0,  128);
+    } else if(x < -1 * gap) {
+      xx = map(x, x - gap, -128, 0, -128); 
+    }
+  
+    int yy = 0;
+    if(y > gap) {
+      yy = map(y, y + gap,  128, 0,  128);
+    } else if(y < -1 * gap) {
+      yy = map(y, y - gap, -128, 0, -128); 
+    }
+  
+    double linear_x  = double_map(y, -128.0, 128.0, -1.0, 1.0);
+    double angular_z = double_map(x, -128.0, 128.0, 1.0, -1.0);
+
+    double angular_x = get_controller_speed(3);
+
+    controller_cmd_vel_msg.linear.x = linear_x; // m/s
+    controller_cmd_vel_msg.angular.z = angular_z; // rad/s
+    controller_cmd_vel_msg.angular.x = angular_x; // rad/s
+
+    // push to ros
+    pub.publish( &controller_cmd_vel_msg );
+
+    write_debug(get_controller_speeds());   
+  }
+
+  if (lastMotorCommand + 500 < millis()) {
+    // stop cart if a third of a secod goes by without a command
+    // probably means that the jeston died
+    //set_left(90);
+    //set_right(90); 
+    updateArcadeDrive(0,0);
+    String debugger = "Timed out, maybe bad connection";
+    write_debug(debugger);
+  }
+  
+>>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   delay(5);  
 }
