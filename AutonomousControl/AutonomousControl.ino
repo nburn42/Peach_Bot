@@ -21,7 +21,6 @@ long controller_speeds_min[8] = {1486 ,1486 ,1051 ,1045 ,1069 ,1141 ,1073 ,1072}
 long controller_speeds_max[8] = {1495 ,1495 ,1885 ,1885 ,1903 ,1966 ,1904 ,1903};
 
 
-String controller_names[] = {"?", "?", "RightUD?", "Top Left Switch", "left left/right", "RightUD", "LeftUD", "RightLR"};
 
 Servo left1;
 Servo left2;
@@ -167,13 +166,6 @@ void updateArcadeDrive(int x, int y) {
   
   l = max(0, min(180, l));
   r = max(0, min(180, r));
-
-//  String debugger = "Driving: ";
-//  debugger += String(l) + " ";
-//  debugger += String(r) + "\n";
-//  
-//  write_debug(debugger);
-
   set_left(l);
   set_right(r);
 }
