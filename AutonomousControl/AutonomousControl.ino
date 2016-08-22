@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-#include <Servo.h>
-=======
 #if (ARDUINO >= 100)
  #include <Arduino.h>
 #else
@@ -13,7 +10,6 @@
 #include <geometry_msgs/Twist.h>
 
 ros::NodeHandle  nh;
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
 
 int first_controller_pin = 40;
 int last_controller_pin = 47;
@@ -25,11 +21,6 @@ long controller_speeds_min[8] = {1486 ,1486 ,1051 ,1045 ,1069 ,1141 ,1073 ,1072}
 long controller_speeds_max[8] = {1495 ,1495 ,1885 ,1885 ,1903 ,1966 ,1904 ,1903};
 
 
-<<<<<<< HEAD
-String controller_names[] = {"?", "?", "Switch?", "Top Left Switch", "left left/right", "left up/down", "right up/down", "right left/right"};
-=======
-String controller_names[] = {"?", "?", "RightUD?", "Top Left Switch", "left left/right", "RightUD", "LeftUD", "RightLR"};
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
 
 Servo left1;
 Servo left2;
@@ -39,8 +30,6 @@ Servo right1;
 Servo right2;
 Servo right3;
 
-<<<<<<< HEAD
-=======
 const int max_speed = 128/3;
 
 long lastMotorCommand = 0;
@@ -88,7 +77,6 @@ void cmd_vel_cb( const geometry_msgs::Twist& cmd_msg){
 
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", cmd_vel_cb);
 
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
 void setup() {
 
   for(int i = first_controller_pin; i <= last_controller_pin; i++) {
@@ -101,27 +89,12 @@ void setup() {
     //controller_speeds_max[i] = 0;
   }
 
-<<<<<<< HEAD
-  Serial.begin(9600);
-  while (!Serial);             // Leonardo: wait for serial monitor
-  Serial.println("\nPeachBot");
-
-=======
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   left1.attach(6, 1000, 2000);
   left2.attach(7, 1000, 2000);
   left3.attach(8, 1000, 2000);
   right1.attach(3, 1000, 2000);
   right2.attach(4, 1000, 2000);
   right3.attach(5, 1000, 2000);
-<<<<<<< HEAD
-}
-
-
-void update_controller_speeds() {
-  for(int i = 0; i <= 7; i++) {
-    controller_speeds[i] = pulseIn(i + first_controller_pin, HIGH, 20000);
-=======
 
   controller_cmd_vel_msg.linear.x = 0.0;
   controller_cmd_vel_msg.linear.y = 0.0;
@@ -139,7 +112,6 @@ void update_controller_speeds() {
 void update_controller_speeds() {
   for(int i = 0; i <= 7; i++) {
     controller_speeds[i] = pulseIn(i + first_controller_pin, HIGH, 40000);
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   }
 }
 
@@ -155,47 +127,6 @@ int get_controller_speed(int i) {
     return max(0, min(255, value));
 }
 
-<<<<<<< HEAD
-void print_controller_speeds() {
- for(int i = 0; i <= 7; i++) {
-    Serial.print(i + first_controller_pin);
-    Serial.print(" ");
-    Serial.print(controller_names[i]);
-    Serial.print(" ");
-    //Serial.print(controller_speeds[i]);
-    
-    Serial.print(get_controller_speed(i));
-    Serial.println(); 
-  }
-  Serial.println();
-}
-
-void print_controller_speeds_min_maxprint_controller_speeds_min_max() {
- Serial.print("min {");
- for(int i = 0; i <= 7; i++) {
-    Serial.print(controller_speeds_min[i]);
-    Serial.print(" ,");
-  }
-  Serial.print("}");
-  Serial.println();
-  Serial.print("max {");
-  for(int i = 0; i <= 7; i++) {
-    Serial.print(controller_speeds_max[i]);
-    Serial.print(" ,");
-  }
-  Serial.print("}");
-  Serial.println();
-}
-
-void updateArcadeDrive(int x, int y) {
-  int xx = x - 128;
-  int yy = 128 - y;
-  
-  int l = yy - xx;
-  int r = yy + xx;
-  
-  l = map(l, -128, 128, 0, 180);
-=======
 String get_controller_speeds() {
  String s = "";
  for(int i = 0; i <= 7; i++) {
@@ -231,58 +162,15 @@ void updateArcadeDrive(int x, int y) {
   int r = y - x;
   
   l = map(l, 128, -128, 0, 180);
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   r = map(r, -128, 128, 0, 180);
   
   l = max(0, min(180, l));
   r = max(0, min(180, r));
-<<<<<<< HEAD
-  
-=======
-
-//  String debugger = "Driving: ";
-//  debugger += String(l) + " ";
-//  debugger += String(r) + "\n";
-//  
-//  write_debug(debugger);
-
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   set_left(l);
   set_right(r);
 }
 
 void set_left(int l) {
-<<<<<<< HEAD
-  int ll = 90;
-  if(l > 90 + gap) {
-    ll = map(l, 90 + 1 + gap, 180, 90, 90 - 90);
-  } else if(l < 90 - gap) {
-    ll = map(l, 0, 90 - 1 - gap, 90 + 90, 90); 
-  }
-  Serial.print("Left ");
-  Serial.println(ll);
-  left1.write(ll);
-  left2.write(ll);
-  left3.write(ll);
-}
-
-void set_right(int r) {
-  int rr = 90;
-  if(r < 90 - gap) {
-    rr = map(r, 90 - 1 - gap, 0, 90, 90 - 90);
-  } else if(r > 90 + gap) {
-    rr = map(r, 180, 90 + 1 + gap, 90 + 90, 90); 
-  }
-  Serial.print("Right ");
-  Serial.println(rr);  
-  right1.write(rr);
-  right2.write(rr);
-  right3.write(rr);
-}
-
-void loop() {
-
-=======
   left1.write(l);
   left2.write(l);
   left3.write(l);
@@ -302,27 +190,11 @@ double double_map(double x, double in_min, double in_max, double out_min, double
 void loop() {
   nh.spinOnce();
   
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   update_controller_speeds();
   //update_controller_speeds_min_max();
   //print_controller_speeds();
   //print_controller_speeds_min_max();
   
-<<<<<<< HEAD
-  if(get_controller_speed(3) > 128) {  
-    int x = get_controller_speed(7);
-    int y = get_controller_speed(6);
-    //Serial.print("X ");
-    //Serial.println(x);
-    //Serial.print("Y ");
-    //Serial.println(y);
-    updateArcadeDrive(x,y);
-  } else {
-    // controller is off
-    set_left(90);
-    set_right(90); 
-  }
-=======
   if(true) {  
     double x = get_controller_speed(7) - 128;
     double y = get_controller_speed(5) - 128;
@@ -366,6 +238,5 @@ void loop() {
     write_debug(debugger);
   }
   
->>>>>>> a06c589d235361a71b6159c53be85997938c6c8c
   delay(5);  
 }
