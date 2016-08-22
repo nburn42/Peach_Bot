@@ -1,0 +1,17 @@
+* Find way to power jetson off of exsisting batteries
+* Automate start
+* Add code to find ends of lanes
+* Add code to take pictures
+* Source sd card to store pictures
+* Find robotics lab's zed
+* Find source of battery acid
+    * Seen last on right side of robot
+* Add another button to turn on manual control
+* Mount Zed
+* Calibrate 
+* Get HDMI cable (my hdmi to vga was spotty)
+* Get mirl wifi working
+
+bonus 
+
+* Add PID control
