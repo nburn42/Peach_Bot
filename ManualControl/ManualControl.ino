@@ -148,7 +148,7 @@ void loop() {
   
   if(get_controller_speed(3) > 128) {  
     int x = get_controller_speed(7);
-    int y = get_controller_speed(6);
+    int y = get_controller_speed(5);
     //Serial.print("X ");
     //Serial.println(x);
     //Serial.print("Y ");

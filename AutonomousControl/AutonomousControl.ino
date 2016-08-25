@@ -131,7 +131,7 @@ String get_controller_speeds() {
  String s = "";
  for(int i = 0; i <= 7; i++) {
     s += String(i + first_controller_pin) + " ";
-    s += controller_names[i] + " ";
+    //s += controller_names[i] + " ";
     s += String(get_controller_speed(i)) + "\n";
   }
   s += "\n";
