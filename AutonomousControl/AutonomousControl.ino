@@ -17,8 +17,8 @@ int last_controller_pin = 47;
 int gap = 8;
 
 long controller_speeds[8];
-long controller_speeds_min[8] = {1486 ,1486 ,1051 ,1045 ,1069 ,1141 ,1073 ,1072};
-long controller_speeds_max[8] = {1495 ,1495 ,1885 ,1885 ,1903 ,1966 ,1904 ,1903};
+long controller_speeds_min[8] = {1000 ,1000 ,1000 ,1000 ,1000 ,1000 ,1000 ,1000};
+long controller_speeds_max[8] = {2000 ,2000 ,2000 ,2000 ,2000 ,2000 ,2000 ,2000};
 
 
 
@@ -47,13 +47,29 @@ void write_debug(String debugger) {
   debug_pub.publish(&str_msg);
 }
 
+void enca1() {
+  write_debug(String("A1\n"));
+}
+
+void enca2() {
+  write_debug(String("A2\n"));
+}
+
+void encb1() {
+  write_debug(String("B1\n"));
+}
+
+void encb2() {
+  write_debug(String("B2\n"));
+}
+
 void cmd_vel_cb( const geometry_msgs::Twist& cmd_msg){
   /* Reset the auto stop timer */
   lastMotorCommand = millis();
   
-  String debugger = "Got message: ";
-  debugger += String(cmd_msg.linear.x) + " ";
-  debugger += String(cmd_msg.angular.z) + "\n";
+  //String debugger = "Got message: ";
+  //debugger += String(cmd_msg.linear.x) + " ";
+  //debugger += String(cmd_msg.angular.z) + "\n";
   
   float rawy = cmd_msg.linear.x; // m/s
   float rawx = cmd_msg.angular.z; // rad/s
@@ -61,15 +77,15 @@ void cmd_vel_cb( const geometry_msgs::Twist& cmd_msg){
   int x, y;
   
   x = (int)double_map(rawx, -1, 1, -1 * max_speed, max_speed);
-  y = (int)double_map(rawy, -1, 1, -1 * max_speed, max_speed);
+  y = (int)double_map(rawy, 1, -1, -1 * max_speed, max_speed);
 
   x = max(-128, min(128, x));
   y = max(-128, min(128, y));
 
-  debugger += String(x) + " ";
-  debugger += String(y) + "\n";
+  //debugger += String(x) + " ";
+  //debugger += String(y) + "\n";
 
-  write_debug(debugger);
+  //write_debug(debugger);
   
   updateArcadeDrive(x,y);
   digitalWrite(13, HIGH-digitalRead(13));  //toggle led  
@@ -107,6 +123,11 @@ void setup() {
   nh.subscribe(sub);
   nh.advertise(pub);
   nh.advertise(debug_pub);
+
+  attachInterrupt(digitalPinToInterrupt(18), enca1, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(19), enca2, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(20), encb1, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(21), encb2, CHANGE);
 }
 
 void update_controller_speeds() {
@@ -225,10 +246,10 @@ void loop() {
     // push to ros
     pub.publish( &controller_cmd_vel_msg );
 
-    write_debug(get_controller_speeds());   
+    //write_debug(get_controller_speeds());   
   }
 
-  if (lastMotorCommand + 500 < millis()) {
+  if (lastMotorCommand + 1000 < millis()) {
     // stop cart if a third of a secod goes by without a command
     // probably means that the jeston died
     //set_left(90);
