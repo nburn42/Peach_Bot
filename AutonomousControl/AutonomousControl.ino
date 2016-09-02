@@ -17,10 +17,6 @@ int last_controller_pin = 47;
 int gap = 8;
 
 long controller_speeds[8];
-long controller_speeds_min[8] = {1486 ,1486 ,1051 ,1045 ,1069 ,1141 ,1073 ,1072};
-long controller_speeds_max[8] = {1495 ,1495 ,1885 ,1885 ,1903 ,1966 ,1904 ,1903};
-
-
 
 Servo left1;
 Servo left2;
@@ -115,15 +111,8 @@ void update_controller_speeds() {
   }
 }
 
-void update_controller_speeds_min_max() {
-  for(int i = 0; i <= 7; i++) {
-    controller_speeds_min[i] = min(controller_speeds[i], controller_speeds_min[i]);
-    controller_speeds_max[i] = max(controller_speeds[i], controller_speeds_max[i]);
-  }
-}
-
 int get_controller_speed(int i) {
-    int value = map(controller_speeds[i], controller_speeds_min[i], controller_speeds_max[i], 0, 255);
+    int value = map(controller_speeds[i], 1000, 1900, 0, 255);
     return max(0, min(255, value));
 }
 
@@ -136,23 +125,6 @@ String get_controller_speeds() {
   }
   s += "\n";
   return s;
-}
-
-void print_controller_speeds_min_maxprint_controller_speeds_min_max() {
-// Serial.print("min {");
-// for(int i = 0; i <= 7; i++) {
-//    Serial.print(controller_speeds_min[i]);
-//    Serial.print(" ,");
-//  }
-//  Serial.print("}");
-//  Serial.println();
-//  Serial.print("max {");
-//  for(int i = 0; i <= 7; i++) {
-//    Serial.print(controller_speeds_max[i]);
-//    Serial.print(" ,");
-//  }
-//  Serial.print("}");
-//  Serial.println();
 }
 
 // x and y must be between -128 and 128
@@ -191,9 +163,11 @@ void loop() {
   nh.spinOnce();
   
   update_controller_speeds();
-  //update_controller_speeds_min_max();
   //print_controller_speeds();
-  //print_controller_speeds_min_max();
+  
+  if(digitalRead(25) == HIGH) {
+    
+  }
   
   if(true) {  
     double x = get_controller_speed(7) - 128;
