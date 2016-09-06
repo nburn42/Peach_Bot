@@ -17,40 +17,40 @@ Servo right1;
 const int max_speed = 128/3;
 
 long lastMotorCommand = 0;
-char debug_string[200];
+//char debug_string[50];
 
 std_msgs::String str_msg;
-ros::Publisher debug_pub("arduino_debug", &str_msg);
+ros::Publisher debug_pub("arduino_debug2", &str_msg);
 
-void write_debug(String debugger) {
-  debugger.toCharArray(debug_string, 200);
-  str_msg.data = debug_string;
-  debug_pub.publish(&str_msg);
-}
+//void write_debug(String debugger) {
+//  debugger.toCharArray(debug_string, 200);
+//  str_msg.data = debug_string;
+//  debug_pub.publish(&str_msg);
+//}
 
 void cmd_vel_cb( const geometry_msgs::Twist& cmd_msg){
   /* Reset the auto stop timer */
   lastMotorCommand = millis();
   
-  String debugger = "Got message: ";
-  debugger += String(cmd_msg.linear.x) + " ";
-  debugger += String(cmd_msg.angular.z) + "\n";
+  //String debugger = "Got message: ";
+  //debugger += String(cmd_msg.linear.x) + " ";
+  //debugger += String(cmd_msg.angular.z) + "\n";
   
   float rawy = cmd_msg.linear.x; // m/s
   float rawx = cmd_msg.angular.z; // rad/s
 
   int x, y;
   
-  x = (int)double_map(rawx, -1, 1, -1 * max_speed, max_speed);
+  x = (int)double_map(rawx, 1, -1, -1 * max_speed, max_speed);
   y = (int)double_map(rawy, -1, 1, -1 * max_speed, max_speed);
 
   x = max(-128, min(128, x));
   y = max(-128, min(128, y));
 
-  debugger += String(x) + " ";
-  debugger += String(y) + "\n";
+  //debugger += String(x) + " ";
+  //debugger += String(y) + "\n";
 
-  write_debug(debugger);
+  //write_debug(debugger);
   
   updateArcadeDrive(x,y);
   digitalWrite(13, HIGH-digitalRead(13));  //toggle led  
@@ -59,6 +59,8 @@ void cmd_vel_cb( const geometry_msgs::Twist& cmd_msg){
 ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", cmd_vel_cb);
 
 void setup() {
+
+  pinMode(13, OUTPUT);
   
   left1.attach(10, 1000, 2000);
   right1.attach(11, 1000, 2000);
@@ -96,6 +98,8 @@ double double_map(double x, double in_min, double in_max, double out_min, double
  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+bool light=true;
+
 void loop() {
   nh.spinOnce();
 
@@ -105,9 +109,11 @@ void loop() {
     //set_left(90);
     //set_right(90); 
     updateArcadeDrive(0,0);
-    String debugger = "Timed out, maybe bad connection";
-    write_debug(debugger);
+    //String debugger = "Timed out, maybe bad connection";
+    //write_debug(debugger);
+    light = !light;
+    digitalWrite(13, light?HIGH:LOW);
   }
   
-  delay(5);  
+  delay(10);  
 }
