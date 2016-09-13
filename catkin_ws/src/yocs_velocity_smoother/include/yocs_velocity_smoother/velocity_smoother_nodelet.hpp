@@ -57,12 +57,13 @@ private:
   std::string name;
   double speed_lim_v, accel_lim_v, decel_lim_v;
   double speed_lim_w, accel_lim_w, decel_lim_w;
-  double decel_factor;
+  double decel_factor, speed_scale, rotation_scale;
 
   double frequency;
 
   geometry_msgs::Twist last_cmd_vel;
   geometry_msgs::Twist  current_vel;
+  geometry_msgs::Twist   scaled_vel;
   geometry_msgs::Twist   target_vel;
 
   bool                 shutdown_req; /**< Shutdown requested by nodelet; kill worker thread */

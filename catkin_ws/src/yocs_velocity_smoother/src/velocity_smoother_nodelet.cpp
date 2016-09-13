@@ -51,6 +51,9 @@ void VelocitySmoother::reconfigCB(yocs_velocity_smoother::paramsConfig &config, 
   decel_factor = config.decel_factor;
   decel_lim_v  = decel_factor*accel_lim_v;
   decel_lim_w  = decel_factor*accel_lim_w;
+  speed_scale = config.speed_scale;
+  roation_scale = config.rotation_scale;
+  
 }
 
 void VelocitySmoother::velocityCB(const geometry_msgs::Twist::ConstPtr& msg)
@@ -217,14 +220,27 @@ void VelocitySmoother::spin()
         cmd_vel->angular.z = last_cmd_vel.angular.z + sign(w_inc)*max_w_inc;
       }
 
-      smooth_vel_pub.publish(cmd_vel);
+
+      scaled_vel.linear.x = speed_scale * cmd_vel.linear.x;
+      scaled_vel.linear.y = speed_scale * cmd_vel.linear.y;
+      scaled_vel.linear.z = speed_scale * cmd_vel.linear.z;
+      scaled_vel.angular.x = rotation_scale * cmd_vel.angular.x;
+      scaled_vel.angular.y = rotation_scale * cmd_vel.angular.y;
+      scaled_vel.angular.z = rotation_scale * cmd_vel.angular.z;
+      smooth_vel_pub.publish(scaled_vel);
       last_cmd_vel = *cmd_vel;
     }
     else if (input_active == true)
     {
       // We already reached target velocity; just keep resending last command while input is active
       cmd_vel.reset(new geometry_msgs::Twist(last_cmd_vel));
-      smooth_vel_pub.publish(cmd_vel);
+      scaled_vel.linear.x = speed_scale * cmd_vel.linear.x;
+      scaled_vel.linear.y = speed_scale * cmd_vel.linear.y;
+      scaled_vel.linear.z = speed_scale * cmd_vel.linear.z;
+      scaled_vel.angular.x = rotation_scale * cmd_vel.angular.x;
+      scaled_vel.angular.y = rotation_scale * cmd_vel.angular.y;
+      scaled_vel.angular.z = rotation_scale * cmd_vel.angular.z;
+      smooth_vel_pub.publish(scaled_vel);
     }
 
     spin_rate.sleep();
