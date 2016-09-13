@@ -8,3 +8,4 @@ sudo apt-get install python-rosdep
 sudo rosdep init
 rosdep update
 sudo apt-get install python-rosinstall
+sudo apt-get install ros-jade-ecl-threads
