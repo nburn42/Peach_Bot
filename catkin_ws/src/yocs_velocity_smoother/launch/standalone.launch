@@ -9,7 +9,9 @@
   <arg name="smooth_cmd_vel_topic"  value="smooth_cmd_vel"/>
   <arg name="robot_cmd_vel_topic"   value="robot_cmd_vel"/>
   <arg name="odom_topic"            value="odom"/>
-  
+  <arg name="speed_scale"           default="1.0"/>
+  <arg name="rotation_scale"        default="1.0"/> 
+ 
   <!-- nodelet manager -->
   <node pkg="nodelet" type="nodelet" name="$(arg nodelet_manager_name)" args="manager"/>
   
@@ -22,5 +24,7 @@
     <arg name="smooth_cmd_vel_topic"  value="$(arg smooth_cmd_vel_topic)"/>
     <arg name="robot_cmd_vel_topic"   value="$(arg robot_cmd_vel_topic)"/>
     <arg name="odom_topic"            value="$(arg odom_topic)"/>
+    <arg name="speed_scale"            value="$(arg speed_scale)"/>
+    <arg name="rotation_scale"            value="$(arg rotation_scale)"/>
   </include>
 </launch>

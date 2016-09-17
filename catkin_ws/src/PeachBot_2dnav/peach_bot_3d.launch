@@ -2,11 +2,6 @@
 
   <master auto="start"/>
 
-  <!--
-  <arg name="map_file" default="$(find peach_bot_2dnav)/blank_map.yaml" />
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
-  -->
-
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find peach_bot_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find peach_bot_2dnav)/costmap_common_params.yaml" command="load" ns="local_costmap" />
@@ -18,13 +13,12 @@
     <param name="recovery_behavior_enabled" type="bool"  value="false" />
     <param name="clearing_rotation_allowed" type="bool"  value="false" />
     <param name="controller_frequency" type="double"  value="5" />
+    <remap from="cmd_vel" to="/raw_cmd_vel"/>
   </node>
-
-
 
   <node pkg="tf" type="static_transform_publisher" name="Zed_to_odom_broadcaster" args="0 0 0 0 0 0 odom zed_initial_frame 100" />
 
-  <node pkg="tf" type="static_transform_publisher" name="Zed_to_camera_broadcaster" args=".3 0 .25 0 0 0 base_link camera_base_link 100" />
+  <node pkg="tf" type="static_transform_publisher" name="Zed_to_camera_broadcaster" args=".4 0 .25 0 0 0 base_link camera_base_link 100" />
 
 <arg name="pi/2" value="1.5707963267948966" />
 <arg name="optical_rotate" value="0 0 0 -$(arg pi/2) 0 -$(arg pi/2)" />
@@ -97,11 +91,6 @@
       <param name="point_cloud_topic"     value="point_cloud/cloud" />
       <param name="cloud_frame_id"        value="/camera_depth_frame" />
 
-     <!-- use with robot_localization
-      <param name="odometry_topic"                value="/zed/odom" />
-      <param name="odometry_frame_id"             value="/odom" />
-      <param name="odometry_transform_frame_id"   value="/zed_base_link_guess" />
-     -->
       <param name="odometry_topic"                value="/odom" />
       <param name="odometry_frame_id"             value="/odom" />
       <param name="odometry_transform_frame_id"   value="/base_link" />
@@ -114,4 +103,13 @@
     <param name="baud" value="57600"/>
   </node>
 
+  <!-- nodelet manager -->
+  <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager"/>
+
+  <include file="$(find yocs_velocity_smoother)/launch/velocity_smoother.launch" >
+	<arg name="robot_cmd_vel_topic" value="raw_cmd_vel" />
+	<arg name="smooth_cmd_vel_topic" value="cmd_vel" />
+	<arg name="speed_scale" value="0.75" />
+	<arg name="rotation_scale" value="0.1" />
+  </include>
 </launch>

@@ -41,8 +41,8 @@ namespace yocs_velocity_smoother {
 
 void VelocitySmoother::reconfigCB(yocs_velocity_smoother::paramsConfig &config, uint32_t level)
 {
-  ROS_INFO("Reconfigure request : %f %f %f %f %f",
-           config.speed_lim_v, config.speed_lim_w, config.accel_lim_v, config.accel_lim_w, config.decel_factor);
+  ROS_INFO("Reconfigure request : %f %f %f %f %f %f %f",
+           config.speed_lim_v, config.speed_lim_w, config.accel_lim_v, config.accel_lim_w, config.decel_factor, config.speed_scale, config.rotation_scale);
 
   speed_lim_v  = config.speed_lim_v;
   speed_lim_w  = config.speed_lim_w;
@@ -52,7 +52,7 @@ void VelocitySmoother::reconfigCB(yocs_velocity_smoother::paramsConfig &config, 
   decel_lim_v  = decel_factor*accel_lim_v;
   decel_lim_w  = decel_factor*accel_lim_w;
   speed_scale = config.speed_scale;
-  roation_scale = config.rotation_scale;
+  rotation_scale = config.rotation_scale;
   
 }
 
@@ -221,12 +221,12 @@ void VelocitySmoother::spin()
       }
 
 
-      scaled_vel.linear.x = speed_scale * cmd_vel.linear.x;
-      scaled_vel.linear.y = speed_scale * cmd_vel.linear.y;
-      scaled_vel.linear.z = speed_scale * cmd_vel.linear.z;
-      scaled_vel.angular.x = rotation_scale * cmd_vel.angular.x;
-      scaled_vel.angular.y = rotation_scale * cmd_vel.angular.y;
-      scaled_vel.angular.z = rotation_scale * cmd_vel.angular.z;
+      scaled_vel.linear.x = speed_scale * cmd_vel->linear.x;
+      scaled_vel.linear.y = speed_scale * cmd_vel->linear.y;
+      scaled_vel.linear.z = speed_scale * cmd_vel->linear.z;
+      scaled_vel.angular.x = rotation_scale * cmd_vel->angular.x;
+      scaled_vel.angular.y = rotation_scale * cmd_vel->angular.y;
+      scaled_vel.angular.z = rotation_scale * cmd_vel->angular.z;
       smooth_vel_pub.publish(scaled_vel);
       last_cmd_vel = *cmd_vel;
     }
@@ -234,12 +234,12 @@ void VelocitySmoother::spin()
     {
       // We already reached target velocity; just keep resending last command while input is active
       cmd_vel.reset(new geometry_msgs::Twist(last_cmd_vel));
-      scaled_vel.linear.x = speed_scale * cmd_vel.linear.x;
-      scaled_vel.linear.y = speed_scale * cmd_vel.linear.y;
-      scaled_vel.linear.z = speed_scale * cmd_vel.linear.z;
-      scaled_vel.angular.x = rotation_scale * cmd_vel.angular.x;
-      scaled_vel.angular.y = rotation_scale * cmd_vel.angular.y;
-      scaled_vel.angular.z = rotation_scale * cmd_vel.angular.z;
+      scaled_vel.linear.x = speed_scale * cmd_vel->linear.x;
+      scaled_vel.linear.y = speed_scale * cmd_vel->linear.y;
+      scaled_vel.linear.z = speed_scale * cmd_vel->linear.z;
+      scaled_vel.angular.x = rotation_scale * cmd_vel->angular.x;
+      scaled_vel.angular.y = rotation_scale * cmd_vel->angular.y;
+      scaled_vel.angular.z = rotation_scale * cmd_vel->angular.z;
       smooth_vel_pub.publish(scaled_vel);
     }
 

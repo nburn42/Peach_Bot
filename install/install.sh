@@ -9,4 +9,4 @@ sudo rosdep init
 rosdep update
 sudo apt-get install python-rosinstall
 sudo apt-get install ros-jade-ecl-threads
-sudo apt-get install ros-jade-explore-lite
+sudo apt-get install ros-jade-opencv3
