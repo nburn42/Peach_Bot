@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/nburn42/Projects/PeachBot/devel -DCMAKE_INSTALL_PREFIX=/home/nburn42/Projects/PeachBot/install -G Unix Makefiles
