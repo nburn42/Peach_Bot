@@ -12,7 +12,7 @@
 
 
 
-#include <digitalWriteFast.h>  // library for high performance reads and writes by jrraines
+//#include <digitalWriteFast.h>  // library for high performance reads and writes by jrraines
                                // see http://www.arduino.cc/cgi-bin/yabb2/YaBB.pl?num=1267553811/0
                                // and http://code.google.com/p/digitalwritefast/
  
@@ -362,7 +362,7 @@ void loop() {
 void HandleLeftMotorInterruptA()
 {
   // Test transition; since the interrupt will only fire on 'rising' we don't need to read pin A
-  _LeftEncoderBSet = digitalReadFast(c_LeftEncoderPinB);   // read the input pin
+  _LeftEncoderBSet = digitalRead(c_LeftEncoderPinB);   // read the input pin
  
   // and adjust counter + if A leads B
   #ifdef LeftEncoderIsReversed
@@ -376,7 +376,7 @@ void HandleLeftMotorInterruptA()
 void HandleRightMotorInterruptA()
 {
   // Test transition; since the interrupt will only fire on 'rising' we don't need to read pin A
-  _RightEncoderBSet = digitalReadFast(c_RightEncoderPinB);   // read the input pin
+  _RightEncoderBSet = digitalRead(c_RightEncoderPinB);   // read the input pin
  
   // and adjust counter + if A leads B
   #ifdef RightEncoderIsReversed
