@@ -14,10 +14,11 @@ class camera():
     def __init__(self):
         pygame.camera.init()
         for i, cam_ind in enumerate(pygame.camera.list_cameras()):
+            cam = pygame.camera.Camera(cam_ind)
+            rospy.loginfo("found camera {}, size {}".format(i, pygame.camera.Camera.get_size())
             if i == 0:
                 #skip zed, not doing so causes problems
                 continue
-            cam = pygame.camera.Camera(cam_ind)
             cam.start()
             self.cameras.append(cam)
 
