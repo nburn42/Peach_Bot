@@ -3,7 +3,7 @@
   <master auto="start"/>
 
   <include file="$(find peach_bot_2dnav)/launch/part_peach_base.launch" />
-  <include file="$(find peach_bot_2dnav)/launch/part_peach_reuse_mapping.launch" />
+  <include file="$(find peach_bot_2dnav)/launch/part_peach_mapping.launch" />
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find peach_bot_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />
@@ -13,12 +13,9 @@
     <rosparam file="$(find peach_bot_2dnav)/base_local_planner_params.yaml" command="load" />
     <!-- remap from="odom" to="odom" / -->
     <remap from="move_base_simple/goal" to="/rtab/goal_out" />
-    <param name="recovery_behaviors" type="list" value="[]" />
     <param name="recovery_behavior_enabled" type="bool"  value="false" />
     <param name="clearing_rotation_allowed" type="bool"  value="false" />
     <param name="controller_frequency" type="double"  value="5" />
-    <param name="planner_patience" type="double"  value="999999" />
-
     <remap from="cmd_vel" to="/raw_cmd_vel"/>
   </node>
 

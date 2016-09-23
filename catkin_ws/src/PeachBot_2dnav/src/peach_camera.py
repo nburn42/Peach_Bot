@@ -14,9 +14,12 @@ class camera():
     def __init__(self):
         pygame.camera.init()
         for i, cam_ind in enumerate(pygame.camera.list_cameras()):
-                cam = pygame.camera.Camera(cam_ind)
-                cam.start()
-                self.cameras.append(cam)
+            if i == 0:
+                #skip zed, not doing so causes problems
+                continue
+            cam = pygame.camera.Camera(cam_ind)
+            cam.start()
+            self.cameras.append(cam)
 
         print rospy.get_param_names()
 
