@@ -13,7 +13,7 @@
     <rosparam file="$(find peach_bot_2dnav)/base_local_planner_params.yaml" command="load" />
     <!-- remap from="odom" to="odom" / -->
     <remap from="move_base_simple/goal" to="/rtab/goal_out" />
-    <param name="recovery_behaviors" type="list" value="[]" />
+    <!-- param name="recovery_behaviors" type="list" value="[]" / -->
     <param name="recovery_behavior_enabled" type="bool"  value="false" />
     <param name="clearing_rotation_allowed" type="bool"  value="false" />
     <param name="controller_frequency" type="double"  value="5" />

@@ -17,7 +17,7 @@
   </node>
 
   <node pkg="peach_bot_2dnav" type="peach_camera.py" name="peach_camera" >
-    <param name="file_path" type="string" value="/home/nburn42/Downloads/"/>
+    <param name="file_path" type="string" value="/media/ubuntu/361E-63D9/"/>
   </node>
 
   <!-- nodelet manager -->
