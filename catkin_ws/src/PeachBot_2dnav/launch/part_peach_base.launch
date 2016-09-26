@@ -28,7 +28,7 @@
   <include file="$(find yocs_velocity_smoother)/launch/velocity_smoother.launch" >
 	<arg name="robot_cmd_vel_topic" value="raw_cmd_vel" />
 	<arg name="smooth_cmd_vel_topic" value="cmd_vel" />
-	<arg name="speed_scale" value="0.75" />
-	<arg name="rotation_scale" value="0.55" />
+	<arg name="speed_scale" value="1.0" />
+	<arg name="rotation_scale" value="1.0" />
   </include>
 </launch>
