@@ -21,7 +21,7 @@ def handle_odom(data):
 
     vx = data.linear.x
     vy = data.linear.y
-    vth = data.angular.z
+    vth = -data.angular.z
 
     #compute odometry in a typical way given the velocities of the robot
     dt = (current_time - last_time).to_sec() * 1000000;
@@ -37,7 +37,7 @@ def handle_odom(data):
     odom_quat = tf.transformations.quaternion_about_axis(th, (0,0,1));
 
     #send the transform
-    br.sendTransform((x,y,0), odom_quat, current_time, "odom", "base_link");
+    br.sendTransform((x,y,0), odom_quat, current_time, "base_link", "odom");
 
     #next, we'll publish the odometry message over ROS
     odom = Odometry()

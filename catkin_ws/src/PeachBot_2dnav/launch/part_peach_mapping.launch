@@ -70,8 +70,8 @@
       <param name="cloud_frame_id"        value="/camera_depth_frame" />
 
       <param name="odometry_topic"                value="/zed_odom" />
-      <param name="odometry_frame_id"             value="/zed_odom" />
-      <param name="odometry_transform_frame_id"   value="/base_link" />
+      <param name="odometry_frame_id"             value="/odom" />
+      <param name="odometry_transform_frame_id"   value="/base_link_zed" />
 
     </node>
   </group>

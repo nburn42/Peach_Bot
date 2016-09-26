@@ -15,10 +15,13 @@ class camera():
         pygame.camera.init()
         camera_list = ["/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_65CF87FF-video-index0"]
         for i, cam_name in enumerate(camera_list):
-            cam = pygame.camera.Camera(cam_name)
-            print("found camera {}, size {}".format(i, cam.get_size()))
-            cam.start()
-            self.cameras.append(cam)
+            try:
+                cam = pygame.camera.Camera(cam_name)
+                print("found camera {}, size {}".format(i, cam.get_size()))
+                cam.start()
+                self.cameras.append(cam)
+            except:
+                pass
 
         rospy.init_node('peach_camera', anonymous=True)
         self.file_path = rospy.get_param('/peach_camera/file_path')
