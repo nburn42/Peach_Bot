@@ -24,17 +24,17 @@
 // 18, 19, 20, 21
 // Quadrature encoders
 // Left encoder
-#define c_LeftEncoderInterrupt 4
-#define c_LeftEncoderPinA 46
-#define c_LeftEncoderPinB 45
+#define c_LeftEncoderInterrupt 5
+#define c_LeftEncoderPinA 18
+#define c_LeftEncoderPinB 19
 #define LeftEncoderIsReversed
 volatile bool _LeftEncoderBSet;
 volatile long _LeftEncoderTicks = 0;
  
 // Right encoder
-#define c_RightEncoderInterrupt 5
-#define c_RightEncoderPinA 44
-#define c_RightEncoderPinB 43
+#define c_RightEncoderInterrupt 3
+#define c_RightEncoderPinA 20
+#define c_RightEncoderPinB 21
 volatile bool _RightEncoderBSet;
 volatile long _RightEncoderTicks = 0;
  
@@ -68,17 +68,19 @@ Servo right3;
 int current_left = 90;
 int current_right = 90;
 
+double ddl = 0;
+double ddr = 0;
 
 const int max_speed = 128/3;
 
 long lastMotorCommand = 0;
 char debug_string[200];
 
-long last_odom_time = 0;
-long new_odom_time = 0;
+long last_odom_time = millis();
+long new_odom_time = millis();
 long dt = 1;
 double V=0,W=0;
-#define dist_per_count 1
+#define dist_per_count 0.000740485
 // 21 in in meters
 #define wheel_distance 0.5334
 
@@ -326,33 +328,31 @@ void loop() {
   
   new_odom_time = millis();
   dt = new_odom_time - last_odom_time;
+  last_odom_time = new_odom_time;
   
   // dist_per_count = distance traveled per count, delta_left = ticks moved
-  double vel_left = (_LeftEncoderTicks * dist_per_count) / (dt*1000); // Left velocity
-  double vel_right = (_RightEncoderTicks * dist_per_count) / (dt*1000); // Right velocity
-  
-  // Getting Translational and Rotational velocities from Left and Right wheel velocities
-  // V = Translation vel. W = Rotational vel.
-  if (vel_left == vel_right)
-  {
-      V = vel_left;
-      W = 0;
-  }
-  else
-  {
-          // Assuming the robot is rotating about point A   
-      // W = vel_left/r = vel_right/(r + d), see the image below for r and d
-      double r = (vel_left * wheel_distance) / (vel_right - vel_left); // Anti Clockwise is positive
-      W = vel_left/r; // Rotational velocity of the robot
-      V = W * (r + wheel_distance/2); // Translation velocity of the robot
-  }
+  double d_left = (_LeftEncoderTicks * dist_per_count); // Left dist
+  double d_right = (_RightEncoderTicks * dist_per_count); // Right dist
+
+  ddl += d_left;
+  ddr += d_right;
+
+  write_debug("L " + String(ddl, 10));
+  write_debug("R " + String(ddr, 10));
+
+
+  V = (d_left + d_right)/(2000 * dt);
+  W = (d_right - d_left)/(1000 * dt);
+
+  //write_debug("W " + String(W, 10));
+  //write_debug("V " + String(V, 10));
   
   odom_msg.linear.x = V;
   odom_msg.angular.z = W;
   pub.publish(&odom_msg);
   _LeftEncoderTicks = 0;
   _RightEncoderTicks = 0;
-  last_odom_time = new_odom_time;
+  
   
   delay(5);  
 }
