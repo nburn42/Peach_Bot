@@ -130,8 +130,8 @@ void cmd_vel_cb( const geometry_msgs::Twist& cmd_msg){
 
   int x, y;
   
-  x = (int)double_map(rawx, -1, 1, -1 * max_speed, max_speed);
-  y = (int)double_map(rawy, 1, -1, -1 * max_speed, max_speed);
+  x = (int)(double_map(rawx, -1, 1, -1 * max_speed, max_speed) * 1.800);
+  y = (int)(double_map(rawy, 1, -1, -1 * max_speed, max_speed) * 0.375);
 
   x = max(-128, min(128, x));
   y = max(-128, min(128, y));
@@ -264,7 +264,7 @@ void loop() {
   //print_controller_speeds();
   
   if(digitalRead(25) == HIGH) {  
-    int x = get_controller_speed(7) - 128;
+    int x = 128 - get_controller_speed(7);
     int y = 128 - get_controller_speed(5);
 
     // one test of controller fuction is changing value
