@@ -21,7 +21,7 @@ class task():
 
         rospy.init_node('peach_task', anonymous=True)
         #self.file_path = rospy.get_param('/peach_task/task_file')
-        self.file_path = "waypoints.txt"
+        self.file_path = "/media/ubuntu/361E-63D9/waypoints.txt"
         pub = rospy.Publisher('take_picture', String, queue_size=10)
         picture_pause = rospy.Rate(.5) #.5 hz = 2 sec
         
