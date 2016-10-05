@@ -17,8 +17,8 @@ int last_controller_pin = 47;
 int gap = 8;
 
 long controller_speeds[8];
-long controller_speeds_min[8] = {1000 ,1000 ,1000 ,1000 ,1000 ,1000 ,1000 ,1000};
-long controller_speeds_max[8] = {2000 ,2000 ,2000 ,2000 ,2000 ,2000 ,2000 ,2000};
+long controller_speeds_min[8] = {1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000};
+long controller_speeds_max[8] = {1900, 1900, 1900, 1900, 1900, 1900, 1900, 1900};
 
 
 

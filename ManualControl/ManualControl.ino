@@ -6,8 +6,8 @@ int last_controller_pin = 47;
 int gap = 8;
 
 long controller_speeds[8];
-long controller_speeds_min[8] = {1486 ,1486 ,1051 ,1045 ,1069 ,1141 ,1073 ,1072};
-long controller_speeds_max[8] = {1495 ,1495 ,1885 ,1885 ,1903 ,1966 ,1904 ,1903};
+long controller_speeds_min[8] = {1000 ,1000 ,1000 ,1000 ,1000 ,1000 ,1000 ,1000};
+long controller_speeds_max[8] = {1900 ,1900 ,1900 ,1900 ,1900 ,1900 ,1900 ,1900};
 
 
 String controller_names[] = {"?", "?", "Switch?", "Top Left Switch", "left left/right", "left up/down", "right up/down", "right left/right"};
@@ -36,12 +36,12 @@ void setup() {
   while (!Serial);             // Leonardo: wait for serial monitor
   Serial.println("\nPeachBot");
 
-  left1.attach(6, 1000, 2000);
-  left2.attach(7, 1000, 2000);
-  left3.attach(8, 1000, 2000);
-  right1.attach(3, 1000, 2000);
-  right2.attach(4, 1000, 2000);
-  right3.attach(5, 1000, 2000);
+  left1.attach(6, 1000, 2500);
+  left2.attach(7, 1000, 2500);
+  left3.attach(8, 1000, 2500);
+  right1.attach(3, 1000, 2500);
+  right2.attach(4, 1000, 2500);
+  right3.attach(5, 1000, 2500);
 }
 
 
