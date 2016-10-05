@@ -1,0 +1,10 @@
+<launch>
+
+  <master auto="start"/>
+
+  <include file="$(find peach_bot_2dnav)/launch/part_peach_simple_task.launch" />
+  <include file="$(find peach_bot_2dnav)/launch/part_peach_base.launch" />
+  <include file="$(find peach_bot_2dnav)/launch/part_peach_mapping.launch" />
+
+
+</launch>

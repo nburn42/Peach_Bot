@@ -1,4 +1,5 @@
 source /opt/ros/jade/setup.bash
 source catkin_ws/devel/setup.sh
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/jade/lib/arm-linux-gnueabihf/
-chown ubuntu /media/ubuntu/361E-63D9
+sudo umount /dev/mmcblk1p1
+sudo mount /dev/mmcblk1p1 /mnt

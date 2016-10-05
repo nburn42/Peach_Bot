@@ -244,6 +244,9 @@ void loop() {
   double d_left = (_LeftEncoderTicks * dist_per_count); // Left dist
   double d_right = (_RightEncoderTicks * dist_per_count); // Right dist
 
+  // to hot fix broken encoders
+  d_left = d_right;
+
   ddl += d_left;
   ddr += d_right;
 
