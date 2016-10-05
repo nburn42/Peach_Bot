@@ -4,6 +4,8 @@
 
   <include file="$(find peach_bot_2dnav)/launch/part_peach_base.launch" />
   <include file="$(find peach_bot_2dnav)/launch/part_peach_mapping.launch" />
+  <include file="$(find peach_bot_2dnav)/launch/part_peach_rtabmap.launch" />
+
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
     <rosparam file="$(find peach_bot_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />

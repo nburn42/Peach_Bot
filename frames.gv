@@ -1,0 +1,9 @@
+digraph G {
+"odom" -> "zed_initial_frame"[label="Broadcaster: /Zed_to_odom_broadcaster\nAverage rate: 10.129 Hz\nMost recent transform: 1474683234.702 ( -0.090 sec old)\nBuffer length: 4.838 sec\n"];
+"base_link" -> "camera_base_link"[label="Broadcaster: /Zed_to_camera_broadcaster\nAverage rate: 10.146 Hz\nMost recent transform: 1474683234.699 ( -0.088 sec old)\nBuffer length: 4.829 sec\n"];
+"odom" -> "base_link"[label="Broadcaster: /peach_odom\nAverage rate: 6.552 Hz\nMost recent transform: 1474683234.502 ( 0.109 sec old)\nBuffer length: 4.732 sec\n"];
+edge [style=invis];
+ subgraph cluster_legend { style=bold; color=black; label ="view_frames Result";
+"Recorded at time: 1474683234.611"[ shape=plaintext ] ;
+ }->"odom";
+}
