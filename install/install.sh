@@ -4,7 +4,7 @@ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu trusty main" > /etc/apt
 sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net --recv-key 0xB01FA116
 sudo apt-get update
 sudo apt-get install ros-jade-ros-base
-sudo apt-get install python-rosdep
+sudo apt-get install python-rosdep python-pygame
 sudo rosdep init
 rosdep update
 sudo apt-get install python-rosinstall

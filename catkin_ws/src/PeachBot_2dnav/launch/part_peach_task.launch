@@ -3,6 +3,6 @@
   <master auto="start"/>
   
   <node pkg="peach_bot_2dnav" type="peach_task.py" name="peach_task" >
-    <param name="file_path" type="string" value="/media/ubuntu/361E-63D9/waypoints.txt"/>
+    <param name="file_path" type="string" value="/mnt/waypoints.txt"/>
   </node>
 </launch>

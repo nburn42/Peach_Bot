@@ -31,7 +31,7 @@
       <param name="frame_id" type="string" value="/base_link"/>
       <param name="map_frame_id" type="string" value="/map"/>
       <param name="queue_size" type="int" value="30"/>
-      <param name="database_path" type="string" value="/media/ubuntu/361E-63D9/rtabmap.db" />
+      <param name="database_path" type="string" value="/mnt/rtabmap.db" />
     </node>
 
   </group>
