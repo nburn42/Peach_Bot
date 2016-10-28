@@ -9,8 +9,11 @@ roscpp
 image_transport
 cv_bridge
 geometry_msgs
-
+dynamic_reconfigure
+nodelet
 )
+
+generate_dynamic_reconfigure_options(cfg/params.cfg)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -102,14 +105,15 @@ geometry_msgs
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES eddiebot_line_follower
-#  CATKIN_DEPENDS other_catkin_pkg
-  DEPENDS 
+INCLUDE_DIRS include
+LIBRARIES eddiebot_line_follower_nodelet
+  CATKIN_DEPENDS
 roscpp
 image_transport
 cv_bridge
 geometry_msgs
+dynamic_reconfigure
+nodelet
 )
 
 ###########
@@ -118,27 +122,27 @@ geometry_msgs
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(include ${catkin_INCLUDE_DIRS})
 
-## Declare a C++ library
-# add_library(eddiebot_line_follower
-#   src/${PROJECT_NAME}/eddiebot_line_follower.cpp
-# )
+# Declare a C++ library
+ add_library(eddiebot_line_follower src/${PROJECT_NAME}_nodelet src/eddiebot_line_follower.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(eddiebot_line_follower ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(eddiebot_line_follower ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-add_executable(eddiebot_line_follower_node src/eddiebot_line_follower.cpp)
+#add_executable(eddiebot_line_follower_node src/eddiebot_line_follower.cpp)
 
 # Add cmake target dependencies of the executable
 # same as for the library above
- add_dependencies(eddiebot_line_follower_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+ add_dependencies(${PROJECT_NAME}_nodelet ${PROJECT_NAME}_gencfg)
+#${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS}
+
 
 # Specify libraries to link a library or executable target against
- target_link_libraries(eddiebot_line_follower_node
+ target_link_libraries(${PROJECT_NAME}_nodelet
    ${catkin_LIBRARIES}
  )
 
@@ -189,3 +193,19 @@ add_executable(eddiebot_line_follower_node src/eddiebot_line_follower.cpp)
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+install(TARGETS ${PROJECT_NAME}_nodelet
+        DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+)
+install(DIRECTORY include/${PROJECT_NAME}/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+)
+install(DIRECTORY plugins
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
+install(DIRECTORY param
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
