@@ -1,3 +1,3 @@
 unset ROS_HOSTNAME
-export ROS_MASTER_URI=http://192.168.1.2:11311
+export ROS_MASTER_URI=http://10.1.10.113:11311
 export ROS_IP=10.1.10.118
