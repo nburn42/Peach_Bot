@@ -100,10 +100,10 @@ public:
 					&Follow::imageCb, this);
 			image_pub_ = it_.advertise("/arcv/Image", 1);
 
-			dynamic_reconfigure_callback = boost::bind(&Follow::reconfigCB, this, _1, _2);
-
-			dynamic_reconfigure_server = new dynamic_reconfigure::Server<eddiebot_line_follower::paramsConfig>(nh_);
-			dynamic_reconfigure_server->setCallback(dynamic_reconfigure_callback);
+			dynamic_reconfigure::Server<eddiebot_line_follower::paramsConfig> srv;
+			dynamic_reconfigure::Server<eddiebot_line_follower::paramsConfig>::CallbackType f;
+			f = boost::bind(&Follow::reconfigCB, this, _1, _2);
+			srv.setCallback(f);
 
 			// Initialize Parameters
 			nh_.param("scale_angular", a_scale_, a_scale_);
@@ -158,7 +158,7 @@ public:
 		catch (cv_bridge::Exception& e)
 		{
 			ROS_ERROR("cv_bridge exception: %s", e.what());
-		return;
+			return;
 		}
 
 		geometry_msgs::Twist velMsg;
@@ -327,6 +327,7 @@ public:
 
 int main(int argc, char** argv) {
 	ros::init(argc, argv, "eddiebot_line_follower");
+	ROS_INFO("Starting to spin...");
 	Follow ic;
 	ros::spin();
 	return 0;
