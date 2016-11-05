@@ -1,0 +1,20 @@
+#Example configuration:
+# - velocity limits are around a 10% above the physical limits
+# - acceleration limits are just low enough to avoid jerking
+
+hll: 0
+hlh: 16
+hhl: 165
+hhh: 179
+
+l1: 50
+l2: 50
+l3: 50
+
+scale_angular: 0.05
+scale_liear: 0.05
+angular: 1.0
+linear: 1.0
+left: 1.0
+right: 1.0
+

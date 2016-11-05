@@ -2,7 +2,7 @@
 
   <master auto="start"/>
 
-  <include file="$(find peach_bot_2dnav)/launch/part_peach_task.launch" />
+  <!-- <include file="$(find peach_bot_2dnav)/launch/part_peach_task.launch" /> -->
   <include file="$(find peach_bot_2dnav)/launch/part_peach_base.launch" />
   <include file="$(find peach_bot_2dnav)/launch/part_peach_mapping.launch" />
 
@@ -28,4 +28,9 @@
 	    <rosparam command="load" file="$(find peach_bot_2dnav)/robot_localization.yaml" />
 	</node>
   -->
+
+
+
+<node pkg="peachy_line_follow" type="peachy_line_follow_node" name="peachy_line_follow_node">
+</node>
 </launch>

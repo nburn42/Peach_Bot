@@ -1,1 +1,1 @@
-rosbag record /camera/depth/image_raw /camera/left/image_rect_color /camera/left/info tf odom
+rosbag record /arcv/Image /key_vel /usb_cam/image_raw
