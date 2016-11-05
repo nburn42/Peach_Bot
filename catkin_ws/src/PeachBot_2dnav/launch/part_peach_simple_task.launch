@@ -2,7 +2,7 @@
 
   <master auto="start"/>
   
-  <node pkg="peach_bot_2dnav" type="peach_task.py" name="peach_task" >
+  <node pkg="peach_bot_2dnav" type="peach_simple_task.py" name="peach_simple_task" >
     <param name="file_path" type="string" value="/mnt/waypoints.txt"/>
   </node>
 </launch>
