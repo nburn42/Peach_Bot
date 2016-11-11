@@ -107,14 +107,14 @@ void imageCb(const sensor_msgs::ImageConstPtr& msg) {
 	inRange(hsv_out, hll, hlh, red_out1);
 	inRange(hsv_out, hhl, hhh, red_out2);
 	red_out = red_out1 | red_out2;
-	red_out = (red_out & (hsv_channels[1] > 50)) & (hsv_channels[2] > 60);
+	red_out = (red_out & (hsv_channels[1] > 70)) & (hsv_channels[2] > 70);
 
 	if(tag_goal_a) {
 		inRange(hsv_out, tag_a_color_low, tag_a_color_high, tag_out);
 	} else {
 		inRange(hsv_out, tag_b_color_low, tag_b_color_high, tag_out);
 	}
-	tag_out = (tag_out & (hsv_channels[1] > 15)) & (hsv_channels[2] > 30);
+	tag_out = (tag_out & (hsv_channels[1] > 77)) & (hsv_channels[2] >128);
 
 	erode(red_out, red_out, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
 	dilate(red_out, red_out, getStructuringElement(MORPH_ELLIPSE, Size(9, 9)) ); 
@@ -160,13 +160,19 @@ void imageCb(const sensor_msgs::ImageConstPtr& msg) {
 	circle(red_out, Point(mean_x,mean_y), total_area/50, color1, 5);
 	circle(out1, Point(mean_x,mean_y), total_area/50, color1, 5);
 	
-	for( int i = 0; i < tag_contours.size() && delay_count > 4; i++ )
+	for( int i = 0; i < tag_contours.size() && delay_count > 12; i++ )
 	{
 		drawContours( out1, tag_contours, i, color3, 2, 8, tag_hierarchy, 0, Point() );
+		Moments con_mom = moments(tag_contours[i], false);
+                double x = con_mom.m10/con_mom.m00;
+                double y = con_mom.m01/con_mom.m00;
+		double dist = x - mean_x;
 		double area = contourArea(tag_contours[i]);
-		printf("tag %f\n", area);
+		printf("taga %f\n", area);
+		printf("tagd %f\n", dist);
+		if(dist < 0) dist = -1 * dist;	
 
-		if(area > 50) {
+		if(area > 400 && dist < 18) {
 			if (tag_goal_a) {
 				printf("FOUND A\n");
 			} else {
@@ -295,18 +301,18 @@ int main(int argc, char **argv)
 	a_scale = 1.0;
 	left_bias = 150;
 	right_bias = 450;
-	hll = 150;
+	hll = 160;
 	hlh = 179;
 	hhl = 0;
-	hhh = 15;
+	hhh = 8;
 	l1 = 100;
 	l2 = 30;
 	l3 = 1;
 
-	tag_b_color_low =  117;
-	tag_b_color_high =  150;
-	tag_a_color_low = 110;
-	tag_a_color_high = 117;
+	tag_b_color_low =  113;
+	tag_b_color_high =  120;
+	tag_a_color_low = 124;
+	tag_a_color_high = 138;
 	tag_goal_a = true;
 
 	/**

@@ -16,7 +16,7 @@ class camera():
         camera_list = ["/dev/v4l/by-id/usb-046d_HD_Pro_Webcam_C920_65CF87FF-video-index0"]
         for i, cam_name in enumerate(camera_list):
             try:
-                cam = pygame.camera.Camera(cam_name)
+                cam = pygame.camera.Camera(cam_name, (1920, 1080))
                 print("found camera {}, size {}".format(i, cam.get_size()))
                 cam.start()
                 self.cameras.append(cam)
