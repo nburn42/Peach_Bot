@@ -107,14 +107,14 @@ void imageCb(const sensor_msgs::ImageConstPtr& msg) {
 	inRange(hsv_out, hll, hlh, red_out1);
 	inRange(hsv_out, hhl, hhh, red_out2);
 	red_out = red_out1 | red_out2;
-	red_out = (red_out & (hsv_channels[1] > 70)) & (hsv_channels[2] > 70);
+	red_out = (red_out & (hsv_channels[1] > 30)) & (hsv_channels[2] > 70);
 
 	if(tag_goal_a) {
 		inRange(hsv_out, tag_a_color_low, tag_a_color_high, tag_out);
 	} else {
 		inRange(hsv_out, tag_b_color_low, tag_b_color_high, tag_out);
 	}
-	tag_out = (tag_out & (hsv_channels[1] > 77)) & (hsv_channels[2] >128);
+	tag_out = (tag_out & (hsv_channels[1] > 25)) & (hsv_channels[2] >128);
 
 	erode(red_out, red_out, getStructuringElement(MORPH_ELLIPSE, Size(5, 5)) );
 	dilate(red_out, red_out, getStructuringElement(MORPH_ELLIPSE, Size(9, 9)) ); 
@@ -172,7 +172,7 @@ void imageCb(const sensor_msgs::ImageConstPtr& msg) {
 		printf("tagd %f\n", dist);
 		if(dist < 0) dist = -1 * dist;	
 
-		if(area > 400 && dist < 18) {
+		if(area > 200 && dist < 18) {
 			if (tag_goal_a) {
 				printf("FOUND A\n");
 			} else {
@@ -191,16 +191,16 @@ void imageCb(const sensor_msgs::ImageConstPtr& msg) {
 
 	velMsg.angular.z = 0;
 	if (total_area > 150) {
-		if (speed < 1.8) {
+		if (speed < 2.5) {
 			speed += 0.3;
 		} else {
-			speed = 1.8;
+			speed = 2.5;
 		}
 		
 		// 640 across
 		// max range 0 - 640
 		// result -0.5 - 0.5
-		velMsg.angular.z =  (0.5 - (mean_x/640)) * 2;
+		velMsg.angular.z =  (0.5 - (mean_x/640)) * 2.5;
 	} else {
 		if (speed > 0) {
                         speed -= 0.4;
