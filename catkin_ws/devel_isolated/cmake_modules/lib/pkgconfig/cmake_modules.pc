@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/cmake_modules
+
+Name: cmake_modules
+Description: Description of cmake_modules
+Version: 0.4.0
+Cflags: 
+Libs: -L/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/cmake_modules/lib 
+Requires: 

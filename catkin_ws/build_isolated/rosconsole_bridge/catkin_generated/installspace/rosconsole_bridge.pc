@@ -1,0 +1,8 @@
+prefix=/opt/ros/kinetic
+
+Name: rosconsole_bridge
+Description: Description of rosconsole_bridge
+Version: 0.4.4
+Cflags: -I/opt/ros/kinetic/include -I/home/ubuntu/cb_ws/install/include
+Libs: -L/opt/ros/kinetic/lib -lrosconsole_bridge -l:/home/ubuntu/cb_ws/install/lib/libconsole_bridge.so
+Requires: rosconsole

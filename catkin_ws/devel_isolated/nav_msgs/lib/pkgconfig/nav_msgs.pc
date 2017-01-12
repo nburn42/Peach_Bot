@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/nav_msgs
+
+Name: nav_msgs
+Description: Description of nav_msgs
+Version: 1.12.5
+Cflags: -I/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/nav_msgs/include
+Libs: -L/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/nav_msgs/lib 
+Requires: geometry_msgs message_runtime std_msgs actionlib_msgs

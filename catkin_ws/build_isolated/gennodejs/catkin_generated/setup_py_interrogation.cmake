@@ -1,0 +1,6 @@
+set(gennodejs_SETUP_PY_VERSION "1.0.3")
+set(gennodejs_SETUP_PY_SCRIPTS "")
+set(gennodejs_SETUP_PY_PACKAGES "gennodejs")
+set(gennodejs_SETUP_PY_PACKAGE_DIRS "src/gennodejs")
+set(gennodejs_SETUP_PY_MODULES "")
+set(gennodejs_SETUP_PY_MODULE_DIRS "")

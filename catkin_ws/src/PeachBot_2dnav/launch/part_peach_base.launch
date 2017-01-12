@@ -28,9 +28,9 @@
   <node pkg="peach_bot_2dnav" type="peach_camera.py" name="peach_camera" >
     <param name="file_path" type="string" value="/mnt/"/>
   </node>
-  
-  <node pkg="peach_bot_2dnav" type="peach_odom.py" name="peach_odom" >
-  </node>
+
+  <!--<node pkg="peach_bot_2dnav" type="peach_odom.py" name="peach_odom" >
+  </node>-->
 
   <!-- nodelet manager -->
   <node pkg="nodelet" type="nodelet" name="nodelet_manager" args="manager"/>

@@ -1,0 +1,8 @@
+prefix=/opt/ros/kinetic
+
+Name: peach_bot_2dnav
+Description: Description of peach_bot_2dnav
+Version: 0.0.0
+Cflags: 
+Libs: -L/opt/ros/kinetic/lib 
+Requires: 

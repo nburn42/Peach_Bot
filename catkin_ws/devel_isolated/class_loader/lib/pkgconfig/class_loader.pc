@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/class_loader
+
+Name: class_loader
+Description: Description of class_loader
+Version: 0.3.6
+Cflags: -I/home/ubuntu/Peach_Bot/catkin_ws/src/class_loader/include -I/usr/include -I/home/ubuntu/cb_ws/install/include
+Libs: -L/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/class_loader/lib -lclass_loader -l:/usr/lib/aarch64-linux-gnu/libboost_thread.so -l:/usr/lib/aarch64-linux-gnu/libboost_system.so -l:/usr/lib/aarch64-linux-gnu/libboost_chrono.so -l:/usr/lib/aarch64-linux-gnu/libboost_date_time.so -l:/usr/lib/aarch64-linux-gnu/libboost_atomic.so -l:/usr/lib/aarch64-linux-gnu/libpthread.so -l:/usr/lib/libPocoFoundation.so -ldl -l:/home/ubuntu/cb_ws/install/lib/libconsole_bridge.so
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/camera_calibration_parsers
+
+Name: camera_calibration_parsers
+Description: Description of camera_calibration_parsers
+Version: 1.11.11
+Cflags: -I/home/ubuntu/Peach_Bot/catkin_ws/src/image_common/camera_calibration_parsers/include
+Libs: -L/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/camera_calibration_parsers/lib -lcamera_calibration_parsers
+Requires: sensor_msgs

@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/roscpp_traits
+
+Name: roscpp_traits
+Description: Description of roscpp_traits
+Version: 0.6.1
+Cflags: -I/home/ubuntu/Peach_Bot/catkin_ws/src/roscpp_core/roscpp_traits/include
+Libs: -L/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/roscpp_traits/lib 
+Requires: cpp_common rostime

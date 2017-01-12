@@ -1,1 +1,1 @@
-/opt/ros/jade/share/catkin/cmake/toplevel.cmake
+catkin/cmake/toplevel.cmake

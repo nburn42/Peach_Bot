@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/rosgraph
+
+Name: rosgraph
+Description: Description of rosgraph
+Version: 1.12.6
+Cflags: 
+Libs: -L/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/rosgraph/lib 
+Requires: 

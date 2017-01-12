@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/roslib
+
+Name: roslib
+Description: Description of roslib
+Version: 1.13.4
+Cflags: -I/home/ubuntu/Peach_Bot/catkin_ws/src/ros/roslib/include
+Libs: -L/home/ubuntu/Peach_Bot/catkin_ws/devel_isolated/roslib/lib -lroslib
+Requires: 
